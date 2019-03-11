@@ -1,0 +1,100 @@
+{
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 2017,
+    "sourceType": "module"
+  },
+  "env": {
+    "amd": true,
+    "node": true,
+    "es6": true,
+    "worker": true
+  },
+  "plugins": [
+    "standard",
+    "import",
+    "promise",
+    "node",
+    "security"
+  ],
+  "extends": [
+    "standard",
+    "google",
+    "plugin:node/recommended",
+    "plugin:promise/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:security/recommended"
+  ],
+  "rules": {
+    "react/jsx-sort-prop-types": 0,
+    "react/require-extension": 0,
+    "react/wrap-multilines": 0,
+    "node/no-unpublished-require": 0,
+    "promise/always-return": 1,
+    "promise/no-return-in-finally": 0,
+    "node/no-unsupported-features": [
+      0,
+      {
+        "version": 8,
+        "ignores": []
+      }
+    ],
+    "standard/object-curly-even-spacing": [
+      2,
+      "either"
+    ],
+    "standard/array-bracket-even-spacing": [
+      2,
+      "either"
+    ],
+    "standard/computed-property-even-spacing": [
+      2,
+      "even"
+    ],
+    "standard/no-callback-literal": [
+      2, [
+        "cb",
+        "callback"
+      ]
+    ],
+    "linebreak-style": [0],
+    "eqeqeq": 2,
+    "comma-dangle": 0,
+    "no-console": 0,
+    "no-debugger": 1,
+    "no-extra-semi": 1,
+    "no-extra-parens": 1,
+    "no-irregular-whitespace": 1,
+    "no-undef": 0,
+    "no-unused-vars": 1,
+    "no-var": 1,
+    "quotes": [
+      2,
+      "single",
+      "avoid-escape"
+    ],
+    "arrow-parens": 0,
+    "semi": [1, "always"],
+    "semi-spacing": 1,
+    "valid-jsdoc": [
+      1,
+      {
+        "prefer": {
+          "arg": "param",
+          "argument": "param",
+          "class": "constructor",
+          "return": "return",
+          "virtual": "abstract"
+        },
+        "requireReturn": false
+      }
+    ],
+    "indent": [
+      "error", 2, {
+        "FunctionDeclaration": {"parameters": "first"},
+        "SwitchCase": 1
+      }
+    ]
+  }
+}

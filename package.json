@@ -1,0 +1,24 @@
+{
+  "name": "fastify-express",
+  "version": "0.1.0",
+  "description": "Basically it takes your code written for fastify and makes it work within an Express project.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"INFO: No tests yet...\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/justintime4tea/fastify-express.git"
+  },
+  "keywords": [
+    "fastify",
+    "express",
+    "keycloak"
+  ],
+  "author": "Justin Gross",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/justintime4tea/fastify-express/issues"
+  },
+  "homepage": "https://github.com/justintime4tea/fastify-express#readme"
+}
