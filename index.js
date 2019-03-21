@@ -106,7 +106,12 @@ function createFakeFastify(expressInstance, keycloak) {
                   return resolve();
                 }
               }
-              plugin(fastifyContext, options, resolve);
+              plugin(fastifyContext, options, err => {
+                if (err) {
+                  return reject(err);
+                }
+                return resolve(err);
+              });
             } catch (err) {
               reject(err);
             }
