@@ -1,10 +1,10 @@
 // Keycloak is only enabled if it is passed to createFakeFastify but this
 // is here in-case you want to quickly disable authZ/authO
 const DISABLE_KEYCLOAK = process.env['DISABLE_KEYCLOAK'];
-const DEBUG = process.env['DEBUG'] && (
-  process.env['DEBUG'] === '*' ||
-  process.env['DEBUG'].includes('fastify-express')
-);
+const DEBUG =
+  process.env['DEBUG'] &&
+  (process.env['DEBUG'] === '*' ||
+    process.env['DEBUG'].includes('fastify-express'));
 
 const TAG = '[fastify-express]';
 const log = (...stuff) => {
@@ -13,21 +13,23 @@ const log = (...stuff) => {
   }
 };
 
-const isAsyncFunction = (func) => {
+const isAsyncFunction = func => {
   if (!func) {
     return false;
   }
-  return (func[Symbol.toStringTag] === 'AsyncFunction');
+  return func[Symbol.toStringTag] === 'AsyncFunction';
 };
 
-const isFunction = (func) => {
+const isFunction = func => {
   if (!func) {
     return false;
   }
-  return (typeof func === 'function') ||
+  return (
+    typeof func === 'function' ||
     `${func.constructor}`.startsWith('function Function') ||
     `${func.constructor}`.startsWith('function AsyncFunction') ||
-    isAsyncFunction(func);
+    isAsyncFunction(func)
+  );
 };
 
 const buildModernRouteDef = (method, url, options, handler) => {
@@ -62,7 +64,7 @@ function createFakeFastify(expressInstance, keycloak) {
         log(`Attempted to overwrite a decoration named ${name}`);
       } else {
         // eslint-disable-next-line
-        fastifyContext[name] = decoration;
+        fastifyContext[name] = decoration
       }
       return this;
     },
@@ -76,7 +78,7 @@ function createFakeFastify(expressInstance, keycloak) {
         log(`Attempted to overwrite a reply decoration named ${name}`);
       } else {
         // eslint-disable-next-line
-        fastifyReplyDecorators[name] = decoration;
+        fastifyReplyDecorators[name] = decoration
       }
       return this;
     }
@@ -91,7 +93,7 @@ function createFakeFastify(expressInstance, keycloak) {
             try {
               if (isAsyncFunction(plugin)) {
                 let resolved = false;
-                await plugin(fastifyContext, options, (err) => {
+                await plugin(fastifyContext, options, err => {
                   if (err) {
                     reject(err);
                   }
@@ -147,8 +149,10 @@ function createFakeFastify(expressInstance, keycloak) {
           console.error(err);
         }
       }
-      log('Loading routes registered by plugins using method call ' +
-        '[ie: fastify.get("/", opts, func)]');
+      log(
+        'Loading routes registered by plugins using method call ' +
+          '[ie: fastify.get("/", opts, func)]'
+      );
       for (const route of deferredRoutes) {
         fakeFastify.route(route);
       }
@@ -175,10 +179,9 @@ function createFakeFastify(expressInstance, keycloak) {
             }
 
             // Capitalizes the resource name
-            resource = resource[0].toUpperCase() +
-              resource.substring(1, resource.length);
+            resource =
+              resource[0].toUpperCase() + resource.substring(1, resource.length);
           }
-
 
           let permission;
           switch (method) {
@@ -204,8 +207,10 @@ function createFakeFastify(expressInstance, keycloak) {
           }
 
           if (!!resource && !!permission) {
-            log('Creating keycloak enforcer for route:',
-              `${resource} with ${permission} permission.`);
+            log(
+              'Creating keycloak enforcer for route:',
+              `${resource} with ${permission} permission.`
+            );
             keycloakEnforcer = keycloak.enforcer(`${resource}:${permission}`);
           }
         }
@@ -214,11 +219,13 @@ function createFakeFastify(expressInstance, keycloak) {
         if (expressInstance.hasOwnProperty(methodLowerCase)) {
           const handlers = [];
           // eslint-disable-next-line
-          const routeMethod = expressInstance[methodLowerCase];
+          const routeMethod = expressInstance[methodLowerCase]
 
           if (isFunction(beforeHandler)) {
-            const wrappedHandler =
-              wrapFastifyHandler(fastifyReplyDecorators, beforeHandler);
+            const wrappedHandler = wrapFastifyHandler(
+              fastifyReplyDecorators,
+              beforeHandler
+            );
 
             handlers.push(wrappedHandler);
           }
@@ -257,16 +264,22 @@ function wrapFastifyHandler(replyDecorators, handler) {
       return {send};
     };
     const header = res.header.bind(res);
-    const reply = Object.assign({
-      code,
-      send,
-      header
-    }, replyDecorators);
+    const reply = Object.assign(
+      {
+        code,
+        send,
+        header,
+        getHeader: header,
+        setHeader: header
+      },
+      replyDecorators
+    );
     const request = {
       headers: req.headers,
       query: req.query,
       params: req.params,
-      body: req.body
+      body: req.body,
+      raw: req
     };
 
     if (isAsyncFunction(handler)) {
