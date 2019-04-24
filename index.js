@@ -256,31 +256,34 @@ function createFakeFastify(expressInstance, keycloak) {
  */
 function wrapFastifyHandler(replyDecorators, handler) {
   return async (req, res, next) => {
+    const reply = {};
+    const request = {};
+
     const send = response => {
       res.send(response);
     };
     const code = statusCode => {
       res.status(statusCode);
-      return {send};
+      return reply;
     };
-    const header = res.header.bind(res);
-    const reply = Object.assign(
-      {
-        code,
-        send,
-        header,
-        getHeader: header,
-        setHeader: header
-      },
-      replyDecorators
-    );
-    const request = {
+    const header = function(...args) {
+      res.header.call(res, ...args)
+      return reply
+    };
+    Object.assign(reply, {
+      code,
+      send,
+      header,
+      getHeader: header,
+      setHeader: header
+    }, replyDecorators);
+    Object.assign(request, {
       headers: req.headers,
       query: req.query,
       params: req.params,
       body: req.body,
       raw: req
-    };
+    });
 
     if (isAsyncFunction(handler)) {
       try {
