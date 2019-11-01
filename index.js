@@ -161,7 +161,7 @@ function createFakeFastify(expressInstance, keycloak) {
       expressInstance.listen(...args);
       return Promise.resolve();
     },
-    route: async ({method, url, beforeHandler, handler}) => {
+    route: async ({method, url, beforeHandler, handler, schema}) => {
       if (!isFunction(handler)) {
         log(`Route ${method} : ${url} was missing a valid handler.`);
       } else {
@@ -235,7 +235,7 @@ function createFakeFastify(expressInstance, keycloak) {
             handlers.push(keycloakEnforcer);
           }
 
-          handlers.push(wrapFastifyHandler(fastifyReplyDecorators, handler));
+          handlers.push(wrapFastifyHandler(fastifyReplyDecorators, handler, schema));
           routeMethod.call(expressInstance, url, ...handlers);
         }
       }
@@ -252,9 +252,10 @@ function createFakeFastify(expressInstance, keycloak) {
  *
  * @param {object} replyDecorators Things that should decorate the reply object.
  * @param {Function} handler The fastify handler to wrap.
+ * @param {object} [schema] A fastify schema definition.
  * @returns {Function} A request handling function.
  */
-function wrapFastifyHandler(replyDecorators, handler) {
+function wrapFastifyHandler(replyDecorators, handler, schema) {
   return async (req, res, next) => {
     const reply = {};
     const request = {};
@@ -284,6 +285,24 @@ function wrapFastifyHandler(replyDecorators, handler) {
       body: req.body,
       raw: req
     });
+
+    // Check schema requirements
+    if (!!req.body && !!schema.body && !!schema.body.required && Array.isArray(schema.body.required)) {
+      const requiredFields = schema.body.required;
+      const requestBody = req.body;
+
+      for (const requiredFieldName of requiredFields) {
+        if (typeof requiredFieldName === 'string' && requiredFields.hasOwnProperty(requiredFieldName) && !requestBody.hasOwnProperty(requiredFieldName)) {
+          return reply.code(400).send({
+            status: 400,
+            message: `Request body must contain ${requiredFieldName}.`
+          });
+        }
+      }
+    }
+
+    // TODO: When schema body present strip the fields not listed in schema body (req)
+    // TODO: When response schema body present only return listed fields (res/reply)
 
     if (isAsyncFunction(handler)) {
       try {
