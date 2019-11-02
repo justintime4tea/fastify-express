@@ -287,12 +287,16 @@ function wrapFastifyHandler(replyDecorators, handler, schema) {
     });
 
     // Check schema requirements
-    if (!!req.body && !!schema.body && !!schema.body.required && Array.isArray(schema.body.required)) {
+    if (!!req.body && !!schema && !!schema.body && !!schema.body.required && Array.isArray(schema.body.required)) {
       const requiredFields = schema.body.required;
       const requestBody = req.body;
 
       for (const requiredFieldName of requiredFields) {
-        if (typeof requiredFieldName === 'string' && requiredFields.hasOwnProperty(requiredFieldName) && !requestBody.hasOwnProperty(requiredFieldName)) {
+        if (
+          typeof requiredFieldName === 'string' &&
+          requiredFields.some(field => field === requiredFieldName) &&
+          !requestBody.hasOwnProperty(requiredFieldName)
+        ) {
           return reply.code(400).send({
             status: 400,
             message: `Request body must contain ${requiredFieldName}.`
