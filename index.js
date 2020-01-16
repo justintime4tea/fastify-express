@@ -177,10 +177,6 @@ function createFakeFastify(expressInstance, keycloak) {
             if (resource.includes('v')) {
               resource = urlParts[2];
             }
-
-            // Capitalizes the resource name
-            resource =
-              resource[0].toUpperCase() + resource.substring(1, resource.length);
           }
 
           let permission;
