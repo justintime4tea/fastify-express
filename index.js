@@ -1,6 +1,6 @@
 // Keycloak is only enabled if it is passed to createFakeFastify but this
 // is here in-case you want to quickly disable authZ/authO
-const DISABLE_KEYCLOAK = process.env['DISABLE_KEYCLOAK'];
+const DISABLE_KEYCLOAK = !process.env['DISABLE_KEYCLOAK'] || (process.env['DISABLE_KEYCLOAK'] && process.env['DISABLE_KEYCLOAK'] === "true");
 const DEBUG =
   process.env['DEBUG'] &&
   (process.env['DEBUG'] === '*' ||
