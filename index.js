@@ -1,6 +1,6 @@
 // Keycloak is only enabled if it is passed to createFakeFastify but this
 // is here in-case you want to quickly disable authZ/authO
-const DISABLE_KEYCLOAK = !process.env['DISABLE_KEYCLOAK'] || (process.env['DISABLE_KEYCLOAK'] && process.env['DISABLE_KEYCLOAK'] === "true");
+const KEYCLOAK_DISABLED = process.env['KEYCLOAK_DISABLED'] === "true";
 const DEBUG =
   process.env['DEBUG'] &&
   (process.env['DEBUG'] === '*' ||
@@ -167,7 +167,7 @@ function createFakeFastify(expressInstance, keycloak) {
       } else {
         log(`Registering route - ${method} : ${url}`);
         let keycloakEnforcer;
-        if (keycloak && !DISABLE_KEYCLOAK) {
+        if (keycloak && !KEYCLOAK_DISABLED) {
           const urlParts = url.split('/');
 
           let resource = urlParts[1];
