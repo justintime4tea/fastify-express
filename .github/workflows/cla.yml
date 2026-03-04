@@ -26,7 +26,7 @@ jobs:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.CLA_ACCESS_TOKEN }}
         with:
           path-to-signatures: 'signatures/version1/cla.json'
-          path-to-document: 'https://gist.githubusercontent.com/justintime4tea/427a0f318e219fc76e1579d5bf0d677f/raw/ca7b27125c7158b4a83b02baec89b994a9d6360f/CLA.md' # e.g. a CLA or a DCO document
+          path-to-document: 'https://gist.github.com/justintime4tea/427a0f318e219fc76e1579d5bf0d677f#file-cla-md' # e.g. a CLA or a DCO document
           # branch should not be protected
           branch: 'main'
           allowlist: copilot
