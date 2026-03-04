@@ -26,7 +26,7 @@ jobs:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.CLA_ACCESS_TOKEN }}
         with:
           path-to-signatures: 'signatures/version1/cla.json'
-          path-to-document: './README.md' # e.g. a CLA or a DCO document
+          path-to-document: 'https://github.com/justintime4tea/fastify-express/blob/0221b63b54c2eebb9d870061446449829b00860c/README.md' # e.g. a CLA or a DCO document
           # branch should not be protected
           branch: 'main'
           allowlist: copilot
@@ -38,7 +38,7 @@ jobs:
           #signed-commit-message: 'For example: $contributorName has signed the CLA in $owner/$repo#$pullRequestNo'
           custom-notsigned-prcomment: >
             Thank you for your submission, we really appreciate it! Like many open-source projects, we ask that you sign our 
-            [Contributor License Agreement](./README.md) 
+            [Contributor License Agreement](https://github.com/justintime4tea/fastify-express/blob/0221b63b54c2eebb9d870061446449829b00860c/README.md) 
             before we can accept your contribution. 
             
             You can sign the CLA by posting a comment to this Pull Request formatted like so:
