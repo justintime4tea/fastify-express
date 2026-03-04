@@ -1,5 +1,9 @@
 # Fastify Express!
 
+> ⚠️ **WARNING: HERE THERE BE DRAGONS** ⚠️
+>
+> This project is really, really old, is no longer maintained, and probably doesn't work anymore. Your mileage may vary. Proceed at your own risk.
+
 ## Introduction
 The goal of this project is *simple*. Provide the means to take an existing project which is using Fastify and enable it to use express with minimal to no code changes in the rest of the project. This is a very rudimentary and novel effort. This definitely needs more work but hey there are no dependencies! So that's neat.
 
