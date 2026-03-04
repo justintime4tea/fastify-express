@@ -38,8 +38,10 @@ jobs:
           #signed-commit-message: 'For example: $contributorName has signed the CLA in $owner/$repo#$pullRequestNo'
           custom-notsigned-prcomment: >
             Thank you for your submission, we really appreciate it! Like many open-source projects, we ask that you sign our 
-            Contributor License Agreement before we can accept your contribution. You can sign the CLA by just posting a
-            Pull Request Comment formatted like so:
+            [Contributor License Agreement](https://gist.github.com/justintime4tea/427a0f318e219fc76e1579d5bf0d677f#file-cla-md) 
+            before we can accept your contribution. 
+            
+            You can sign the CLA by posting a comment to this Pull Request formatted like so:
           #custom-pr-sign-comment: 'The signature to be committed in order to sign the CLA'
           #custom-allsigned-prcomment: 'pull request comment when all contributors has signed, defaults to **CLA Assistant Lite bot** All Contributors have signed the CLA.'
           lock-pullrequest-aftermerge: true
